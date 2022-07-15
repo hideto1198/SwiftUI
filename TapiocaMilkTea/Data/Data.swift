@@ -7,16 +7,22 @@
 
 import Foundation
 
+class OrderStore: ObservableObject {
+    @Published var orders: [OrderEntity] = []
+}
+
+/*
 struct OrderStore {
     let orders: [OrderEntity] = load("orderEntity.json")
 }
+*/
 
 struct DataStore {
     let specials: [Special] = load("special.json")
     let shops: [Shop] = load("shop.json")
 }
 
-let orderStore: OrderStore = OrderStore()
+//let orderStore: OrderStore = OrderStore()
 let dataStore: DataStore = DataStore()
 
 func load<T: Decodable>(_ filename: String, as type: T.Type = T.self) -> T {
