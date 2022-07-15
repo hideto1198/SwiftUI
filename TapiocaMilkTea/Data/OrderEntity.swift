@@ -45,6 +45,46 @@ enum IceCream: Int {
     }
 }
 
+class OrderEntity: Identifiable, ObservableObject {
+    @Published public var id: String
+    @Published public var flavor: Int
+    @Published public var iceCream: Int
+    @Published public var nataDeCoco: Bool
+    @Published public var other: String
+    @Published public var date: Date
+    @Published public var quantity: Int
+    @Published public var favorite: Bool
+    
+    init(
+        id: String = UUID().uuidString,
+        flavor: Int = 0,
+        iceCream: Int = 0,
+        nataDeCoco: Bool = true,
+        other: String = "",
+        date: Date = Date(),
+        quantity: Int = 1,
+        favorite: Bool = false
+    ){
+        self.id = id
+        self.flavor = flavor
+        self.iceCream = iceCream
+        self.nataDeCoco = nataDeCoco
+        self.other = other
+        self.date = date
+        self.quantity = quantity
+        self.favorite = favorite
+    }
+    
+    public var flavorName: String {
+        Flavor(rawValue: self.flavor)!.name
+    }
+    
+    public var iceCreamName: String {
+        IceCream(rawValue: self.iceCream)!.name
+    }
+    
+}
+/*
 struct OrderEntity: Codable, Identifiable {
     public var id: String
     public var flavor: Int
@@ -63,3 +103,4 @@ struct OrderEntity: Codable, Identifiable {
         IceCream(rawValue: self.iceCream)!.name
     }
 }
+*/
