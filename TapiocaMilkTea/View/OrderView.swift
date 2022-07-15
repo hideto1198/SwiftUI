@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct OrderView: View {
+    @EnvironmentObject var orderStore: OrderStore
     @State var flavor: Int = 0
     @State var nataDeCoco: Bool = false
     @State var iceCream: Int = 0
@@ -85,6 +86,18 @@ struct OrderView: View {
     }
         
     private func save(){
+        orderStore.orders.append(
+            OrderEntity(
+                id: UUID().uuidString,
+                flavor: self.flavor,
+                iceCream: self.iceCream,
+                nataDeCoco: self.nataDeCoco,
+                other: self.other,
+                date: Date(),
+                quantity: self.quantity,
+                favorite: false
+            )
+        )
         DispatchQueue.main.asyncAfter(deadline: .now()){
             self.isSave = true
             self.clear()
@@ -104,5 +117,6 @@ struct OrderView: View {
 struct OrderView_Previews: PreviewProvider {
     static var previews: some View {
         OrderView()
+            .environmentObject(OrderStore())
     }
 }
