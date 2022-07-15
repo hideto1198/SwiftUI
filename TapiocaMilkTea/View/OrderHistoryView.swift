@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct OrderHistoryView: View {
-    @State var showFavoritesOnly = false
+    @EnvironmentObject var orderStore: OrderStore
+    @State var showFavoritesOnly: Bool = false
+    @State var showDeleteActionSheet: Bool = false
+    
     var body: some View {
         NavigationView {
             List {
@@ -28,12 +31,42 @@ struct OrderHistoryView: View {
                 }
             }
             .navigationBarTitle(Text("Order list"))
+            .navigationBarItems(
+                trailing:
+                    Button(
+                        action:{
+                            self.showDeleteActionSheet = true
+                        }
+                    ){
+                        Text("Favorites")
+                    }
+                    .actionSheet(isPresented: self.$showDeleteActionSheet){
+                        ActionSheet(
+                            title: Text("Message"),
+                            message: Text("Make All Favorites"),
+                            buttons: [
+                                .destructive(Text("Favorites")){
+                                    self.orderStore.orders.forEach {
+                                        $0.favorite = true
+                                    }
+                                },
+                                .cancel(Text("Cancel"))
+                            ]
+                        )
+                    }
+            )
         }
     }
 }
 
 struct OrderHistoryView_Previews: PreviewProvider {
+    static var orderStore: OrderStore {
+        let orderStore = OrderStore()
+        orderStore.orders.append(OrderEntity())
+        return orderStore
+    }
     static var previews: some View {
         OrderHistoryView()
+            .environmentObject(orderStore)
     }
 }
