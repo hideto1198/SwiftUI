@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct OrderRowView: View {
-    var order: OrderEntity
+    //var order: OrderEntity
+    @ObservedObject var order: OrderEntity
+    
     var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
@@ -53,6 +55,11 @@ struct OrderRowView: View {
 }
 
 struct OrderRowView_Previews: PreviewProvider {
+    static var orderStore: OrderStore {
+        let orderStore = OrderStore()
+        orderStore.orders.append(OrderEntity())
+        return orderStore
+    }
     static var previews: some View {
         OrderRowView(order: orderStore.orders[0])
     }
