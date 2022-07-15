@@ -47,8 +47,12 @@ struct OrderDetail: View {
 }
 
 struct OrderDetail_Previews: PreviewProvider {
+    static var orderStore: OrderStore {
+        let orderStore: OrderStore = OrderStore()
+        orderStore.orders.append(OrderEntity())
+        return orderStore
+    }
     static var previews: some View {
         OrderDetail(order: orderStore.orders[0])
-        OrderDetail(order: orderStore.orders[1])
     }
 }
